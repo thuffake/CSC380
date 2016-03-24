@@ -8,6 +8,7 @@ package healthmeup380;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 import java.util.Scanner;
@@ -26,7 +27,20 @@ public class SQLMethodTest {
     ResultSet rs;
     Scanner sc = new Scanner(System.in);
     String sql;
-    String uName = "bob12";
+    String fName;
+    String lName;
+    String gender;
+    String uName="bob12";
+    String checkUserName;
+    String checkPassword;
+    private String password;
+    int weight;
+    int fHeight;
+    int iHeight;
+    int age;
+    int tdee;
+    int weightgoal;
+    
     
     public SQLMethodTest() {
     }
@@ -64,8 +78,10 @@ public class SQLMethodTest {
         while (rs.next()){
         assertTrue(rs.getString("userName").equals(uName));
         assertFalse(rs.getString("userName").equals("thuff"));
+        //u.testLogonSuccses();
+        //assertTrue(u.uName.equals(uName));        
         }
-        
+        //u.testLogonSuccses();
     }
 
     /**
@@ -96,7 +112,7 @@ public class SQLMethodTest {
             assertFalse(rs.getInt("weight")==(0));
             
         }
-        
+        //u.testLogonSuccses();
     }
 
     /**
@@ -126,5 +142,61 @@ public class SQLMethodTest {
             assertFalse(rs.getInt("totalCalories")==(0));
     }
     }
+    @Test
+    public void login ()throws SQLException {
+        System.out.println("Enter Username: ");
+        String checkUserName = "bob12";
+                //sc.next();
+        System.out.println("Enter Password: ");
+        String checkPassword= "pswd";
+                //sc.next();
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
+        Statement stmt= (Statement) conn.createStatement();
+        sql = "SELECT * FROM user WHERE userName='"+checkUserName+"'";
+        rs = stmt.executeQuery(sql);
+            
+        while(rs.next()){
+        fName=rs.getString("fName");
+        lName=rs.getString("lName");
+        gender=rs.getString("gender");
+        uName=rs.getString("username");
+        password=rs.getString("passWord");
+        fHeight=rs.getInt("fHeight");
+        iHeight=rs.getInt("iHeight");
+        age=rs.getInt("age");
+        tdee=rs.getInt("tdee");
+        weight=rs.getInt("weight");
+        weightgoal=rs.getInt("weightgoal");
+        }
+                    
+        System.out.println("Welcome, "+fName+"!");
+        User u = new User(fName,lName,gender,fHeight,iHeight,age,weight,tdee,weightgoal,uName,password);
+        assertTrue(u.uName.equalsIgnoreCase(checkUserName));
+        //return u;
     
+    }
+    //tests if a username already exist, test should pass with output "Username already exists"
+    @Test
+    public void userNameExists ()throws SQLException {
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
+        Statement stmt= (Statement) conn.createStatement();
+        sql = "SELECT * FROM user WHERE userName='"+uName+"'";
+        rs = stmt.executeQuery(sql);
+            
+        while(rs.next()){
+        uName=rs.getString("username");
+        }
+        
+        boolean exists=false;
+        if(uName==null){
+            System.out.println("Username does not exist!");
+            exists=false;
+            assertTrue(exists=false);
+            //return exists;
+        }
+        System.out.println("Username already exists!");
+        exists=true;
+        assertTrue(exists=true);
+        //return exists;
+    }
 }

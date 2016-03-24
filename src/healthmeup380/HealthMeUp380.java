@@ -26,10 +26,33 @@ public class HealthMeUp380 {
     public static void main(String[] args) throws SQLException{
         
         SQLMethod sql = new SQLMethod();
+        Scanner sc = new Scanner(System.in);
+        String input = "Text";
+        //sql.createUser();
+        User u = sql.login();
+        u.calculate();
+       //TdeeCalc calc = new TdeeCalc();
+       //calc.calculate(u.fHeight,u.iHeight,u.weight,u.age,u.gender);
+        //String name = u.fName;
+        //System.out.println(name);
+        //sql.getUser();
+//        while(!input.equalsIgnoreCase("exit")){
+//            input = sc.next();
+//            if(input.equalsIgnoreCase("Create User")){
+//                System.out.println("creating user");
+//                sql.createUser();
+//            }
+//        }
         
         //sql.getUser();
         //sql.createUser();
         //sql.submitFood();
+        
+        
+       //TdeeCalc calc = new TdeeCalc();
+       //calc.calculate(6, 0, 200,35, "Male");
+        
+       
        
     }
     
