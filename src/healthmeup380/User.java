@@ -21,12 +21,12 @@ public class User {
     int fHeight;
     int iHeight;
     int age;
-    int tdee;
+    double tdee;
     int weightgoal;
     Scanner sc = new Scanner(System.in);
     
     public User(String fName, String lName, String gender, int fHeight, int iHeight,
-            int age, int weight, int tdee, int weightgoal, String uName, String password){
+            int age, int weight, double tdee, int weightgoal, String uName, String password){
         this.fName = fName;
         this.lName = lName;
         this.tdee = tdee;
@@ -85,7 +85,9 @@ public class User {
         
     }
     
-    
+    public String getCurrentUserName(){
+        return uName;
+    }
     
 }
 

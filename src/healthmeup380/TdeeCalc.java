@@ -27,9 +27,10 @@ public class TdeeCalc {
         double cmHeight=inchHeight*2.54; 
         double bmr=0;
 
-        System.out.println("What is your activity level?");
-        int actlvl = 3;
-        actlvl=sc.nextInt();
+        System.out.println("What is your activity level on a level of 1 - 5?");
+        //int actlvl = sc.nextInt();
+        //int actlvl = 3;
+        int actlvl=sc.nextInt();
         if(gender.equalsIgnoreCase("m")){
             bmr=66 + (13.7 * kgweight) + (5 * cmHeight) - (6.8 * age);
         } else if(gender.equalsIgnoreCase("f")){

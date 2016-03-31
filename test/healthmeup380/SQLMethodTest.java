@@ -124,6 +124,7 @@ public class SQLMethodTest {
         //submits a food with the given parmeters and randomizes the 
         //foods calories, then verifys the food was created by comparing
         //the random number with the expected random number
+        System.out.println("Submit Food");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
         Statement stmt= (Statement) conn.createStatement();
         Random rn = new Random();
@@ -144,10 +145,10 @@ public class SQLMethodTest {
     }
     @Test
     public void login ()throws SQLException {
-        System.out.println("Enter Username: ");
+        //System.out.println("Enter Username: ");
         String checkUserName = "bob12";
                 //sc.next();
-        System.out.println("Enter Password: ");
+        //System.out.println("Enter Password: ");
         String checkPassword= "pswd";
                 //sc.next();
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");

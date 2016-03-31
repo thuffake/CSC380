@@ -31,7 +31,7 @@ public class SQLMethod {
     int fHeight;
     int iHeight;
     int age;
-    int tdee;
+    double tdee;
     int weightgoal;
     
     public SQLMethod(){
@@ -63,20 +63,36 @@ public class SQLMethod {
         System.out.println("creating user");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
         Statement stmt= (Statement) conn.createStatement();
+        System.out.println("Create Username");
         uName=sc.next();
-        if(userNameExists(uName)==true){
-            return;
-        }
+        //if(userNameExists(uName)==true){
+           // return;
+       // }
+        System.out.println("Create password");
         password=sc.next();
+        System.out.println("First Name?");
         fName=sc.next();
+        System.out.println("Last name?");
         lName=sc.next();
+        System.out.println("Gender? Type M or F");
         gender=sc.next();
+        System.out.println("Height in feet");
         fHeight=sc.nextInt();
+        System.out.println(fHeight+" foot and how many inches?");
         iHeight=sc.nextInt();
+        System.out.println("Age");
         age=sc.nextInt();
-        tdee=sc.nextInt();
+//        System.out.println("Tdee?");
+//        TdeeCalc calc = new TdeeCalc();
+//        tdee = calc.calculate(fHeight, iHeight, weight, age, gender);
+//        tdee=sc.nextInt();
+        System.out.println("Weight in pounds");
         weight=sc.nextInt();
+        System.out.println("Goal weight");
         weightgoal=sc.nextInt();
+        System.out.println("Lets calculate your TDEE");
+        TdeeCalc calc = new TdeeCalc();
+        tdee = calc.calculate(fHeight, iHeight, weight, age, gender);
 
         sql="insert into user (id,fName,lName,weight,weightgoal,tdee,userName,passWord,fHeight,iHeight,age,gender)"
                 + "VAlUES (NULL,'"+fName+"','"+lName+"','"+weight+"','"+weightgoal+"','"+tdee+"',"
@@ -84,16 +100,25 @@ public class SQLMethod {
             stmt.executeUpdate(sql);
     }
     
+    //maybe change this method to require a username
     public void submitFood() throws SQLException{
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
         Statement stmt= (Statement) conn.createStatement();
+        System.out.println("Name of food?");
+        String food = sc.next();
+        System.out.println("How many calories?");
+        String calorie=sc.next();
+        CurrentDate CDate = new CurrentDate();
+        String date = CDate.getDate();
+        //String CUsername = uName;
         sql="insert into foodlog (id,userName,food,log,totalCalories) "
-                + "VAlUES (NULL,'thuff','Apple','2016-03-09','95')";
+                + "VAlUES (NULL,'"+uName+"','"+food+"','"+date+"','"+calorie+"')";
             stmt.executeUpdate(sql);
         
     }
     
     public User login ()throws SQLException {
+        System.out.println("Logging in...");
         System.out.println("Enter Username: ");
         checkUserName = sc.next();
         System.out.println("Enter Password: ");

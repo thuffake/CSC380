@@ -29,8 +29,37 @@ public class HealthMeUp380 {
         Scanner sc = new Scanner(System.in);
         String input = "Text";
         //sql.createUser();
-        User u = sql.login();
-        u.calculate();
+        //User u = sql.login();
+        System.out.println("Please select an option:\n"
+                + "1. Login\n"
+                + "2. Create user");
+        while (!input.equalsIgnoreCase("Exit")){
+            input = sc.next();
+            if (input.equalsIgnoreCase("1")){
+                User u = sql.login();
+                System.out.println("Please select an option:\n"
+                + "1. Submit Food\n"
+                + "2. ");
+                input=sc.next();
+                if (input.equalsIgnoreCase("1")){
+                    sql.submitFood();
+                }
+            }
+            
+            if (input.equalsIgnoreCase("2")){
+                sql.createUser();
+                User u = sql.login();
+            }
+            
+            if (input.equalsIgnoreCase("3")){
+                sql.submitFood();
+            }
+            
+            System.out.println("not exited");
+        }
+        System.out.println(" exited");
+
+        //u.calculate();
        //TdeeCalc calc = new TdeeCalc();
        //calc.calculate(u.fHeight,u.iHeight,u.weight,u.age,u.gender);
         //String name = u.fName;
