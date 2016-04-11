@@ -46,8 +46,6 @@ public class MenuFrame extends JFrame{
         submitFood = new JButton("Submit Food");
         panel.add(submitFood);
         
-        
-        
         add(panel,BorderLayout.CENTER);
         
         ActionListener submitFoodButtonListener = new ActionListener() {
