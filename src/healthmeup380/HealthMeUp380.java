@@ -5,6 +5,9 @@
  */
 package healthmeup380;
 
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,6 +15,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 import java.util.Scanner;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,60 +34,17 @@ public class HealthMeUp380 {
         SQLMethod sql = new SQLMethod();
         Scanner sc = new Scanner(System.in);
         String input = "Text";
-        //sql.createUser();
-        //User u = sql.login();
-        System.out.println("Please select an option:\n"
-                + "1. Login\n"
-                + "2. Create user");
-        while (!input.equalsIgnoreCase("Exit")){
-            input = sc.next();
-            if (input.equalsIgnoreCase("1")){
-                User u = sql.login();
-                System.out.println("Please select an option:\n"
-                + "1. Submit Food\n"
-                + "2. ");
-                input=sc.next();
-                if (input.equalsIgnoreCase("1")){
-                    sql.submitFood();
-                }
-            }
-            
-            if (input.equalsIgnoreCase("2")){
-                sql.createUser();
-                User u = sql.login();
-            }
-            
-            if (input.equalsIgnoreCase("3")){
-                sql.submitFood();
-            }
-            
-            System.out.println("not exited");
-        }
-        System.out.println(" exited");
+        
+        try {
+        LoginFrame frame=new LoginFrame();
+        frame.setSize(300,100);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //u.calculate();
-       //TdeeCalc calc = new TdeeCalc();
-       //calc.calculate(u.fHeight,u.iHeight,u.weight,u.age,u.gender);
-        //String name = u.fName;
-        //System.out.println(name);
-        //sql.getUser();
-//        while(!input.equalsIgnoreCase("exit")){
-//            input = sc.next();
-//            if(input.equalsIgnoreCase("Create User")){
-//                System.out.println("creating user");
-//                sql.createUser();
-//            }
-//        }
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } 
         
-        //sql.getUser();
-        //sql.createUser();
-        //sql.submitFood();
-        
-        
-       //TdeeCalc calc = new TdeeCalc();
-       //calc.calculate(6, 0, 200,35, "Male");
-        
-       
        
     }
     

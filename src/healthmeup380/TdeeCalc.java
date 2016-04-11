@@ -19,7 +19,7 @@ public class TdeeCalc {
     }
     
     //Make sure to uncomment the user input for the scanner
-    public double calculate(int fHeight,int iHeight,int weight,int age, String gender){
+    public int calculate(int fHeight,int iHeight,int weight,int age, String gender){
         double tdee=0;
         double kgweight=weight/2.2;
         fHeight=fHeight * 12;
@@ -27,10 +27,10 @@ public class TdeeCalc {
         double cmHeight=inchHeight*2.54; 
         double bmr=0;
 
-        System.out.println("What is your activity level on a level of 1 - 5?");
+        //System.out.println("What is your activity level on a level of 1 - 5?");
         //int actlvl = sc.nextInt();
         //int actlvl = 3;
-        int actlvl=sc.nextInt();
+        int actlvl=3;
         if(gender.equalsIgnoreCase("m")){
             bmr=66 + (13.7 * kgweight) + (5 * cmHeight) - (6.8 * age);
         } else if(gender.equalsIgnoreCase("f")){
@@ -51,7 +51,9 @@ public class TdeeCalc {
                      break;
         }
         tdee = (int) Math.round(tdee);
-        System.out.println(tdee);
-        return tdee;
+        Double d = tdee;
+        Integer i = d.intValue();
+        //System.out.println(tdee);
+        return i;
     }
 }

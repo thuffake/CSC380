@@ -31,14 +31,14 @@ public class SQLMethod {
     int fHeight;
     int iHeight;
     int age;
-    double tdee;
+    int tdee;
     int weightgoal;
     
     public SQLMethod(){
     }
     
     
-    public Boolean userNameExists (String uName)throws SQLException {
+    public Boolean userNameExists ()throws SQLException {
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
         Statement stmt= (Statement) conn.createStatement();
         sql = "SELECT * FROM user WHERE userName='"+uName+"'";
@@ -59,73 +59,45 @@ public class SQLMethod {
         return exists;
     }
     
-    public void createUser() throws SQLException{
-        System.out.println("creating user");
+    public void createUser(String uName,String password,String fName,
+            String lName,int weight,int weightGoal, int fHeight,
+            int iHeight,int age,String gender,int tdee) throws SQLException{
+        //System.out.println("creating user");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
         Statement stmt= (Statement) conn.createStatement();
-        System.out.println("Create Username");
-        uName=sc.next();
-        //if(userNameExists(uName)==true){
-           // return;
-       // }
-        System.out.println("Create password");
-        password=sc.next();
-        System.out.println("First Name?");
-        fName=sc.next();
-        System.out.println("Last name?");
-        lName=sc.next();
-        System.out.println("Gender? Type M or F");
-        gender=sc.next();
-        System.out.println("Height in feet");
-        fHeight=sc.nextInt();
-        System.out.println(fHeight+" foot and how many inches?");
-        iHeight=sc.nextInt();
-        System.out.println("Age");
-        age=sc.nextInt();
-//        System.out.println("Tdee?");
-//        TdeeCalc calc = new TdeeCalc();
-//        tdee = calc.calculate(fHeight, iHeight, weight, age, gender);
-//        tdee=sc.nextInt();
-        System.out.println("Weight in pounds");
-        weight=sc.nextInt();
-        System.out.println("Goal weight");
-        weightgoal=sc.nextInt();
-        System.out.println("Lets calculate your TDEE");
-        TdeeCalc calc = new TdeeCalc();
-        tdee = calc.calculate(fHeight, iHeight, weight, age, gender);
 
         sql="insert into user (id,fName,lName,weight,weightgoal,tdee,userName,passWord,fHeight,iHeight,age,gender)"
-                + "VAlUES (NULL,'"+fName+"','"+lName+"','"+weight+"','"+weightgoal+"','"+tdee+"',"
+                + "VAlUES (NULL,'"+fName+"','"+lName+"','"+weight+"','"+weightGoal+"','"+tdee+"',"
                 + "'"+uName+"','"+password+"','"+fHeight+"','"+iHeight+"','"+age+"','"+gender+"')";
             stmt.executeUpdate(sql);
     }
     
-    //maybe change this method to require a username
-    public void submitFood() throws SQLException{
+    //maybe change this method to require a username DONE
+    public void submitFood(String uName,String food,int calories) throws SQLException{
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
         Statement stmt= (Statement) conn.createStatement();
-        System.out.println("Name of food?");
-        String food = sc.next();
-        System.out.println("How many calories?");
-        String calorie=sc.next();
+        //System.out.println("Name of food?");
+        //String food = sc.next();
+        //System.out.println("How many calories?");
+        //String calorie=sc.next();
         CurrentDate CDate = new CurrentDate();
         String date = CDate.getDate();
         //String CUsername = uName;
         sql="insert into foodlog (id,userName,food,log,totalCalories) "
-                + "VAlUES (NULL,'"+uName+"','"+food+"','"+date+"','"+calorie+"')";
+                + "VAlUES (NULL,'"+uName+"','"+food+"','"+date+"','"+calories+"')";
             stmt.executeUpdate(sql);
         
     }
     
-    public User login ()throws SQLException {
-        System.out.println("Logging in...");
-        System.out.println("Enter Username: ");
-        checkUserName = sc.next();
-        System.out.println("Enter Password: ");
-        checkPassword= sc.next();
+    public Boolean auth (String AuthUserName, String AuthPassword)throws SQLException {
+        //System.out.println("Logging in...");
+        //System.out.println("Enter Username: ");
+        //checkUserName = sc.next();
+        //System.out.println("Enter Password: ");
+        //checkPassword= sc.next();
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
         Statement stmt= (Statement) conn.createStatement();
-        sql = "SELECT * FROM user WHERE userName='"+checkUserName+"'";
+        sql = "SELECT * FROM user WHERE userName='"+AuthUserName+"'";
         rs = stmt.executeQuery(sql);
             
         while(rs.next()){
@@ -142,9 +114,42 @@ public class SQLMethod {
         weightgoal=rs.getInt("weightgoal");
         }
                     
-        System.out.println("Welcome, "+fName+"!");
+        //System.out.println("Welcome, "+fName+"!");
         User u = new User(fName,lName,gender,fHeight,iHeight,age,weight,tdee,weightgoal,uName,password);
-        return u;
+        return true;
+    }
+    
+    public String getUserFirstName(String userName) throws SQLException{
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
+        Statement stmt= (Statement) conn.createStatement();
+        sql = "SELECT * FROM user WHERE userName='"+userName+"'";
+        rs = stmt.executeQuery(sql);
+        while(rs.next()){
+        fName=rs.getString("fName");
+        }
+        return fName;
+    }
+    
+    public int getUserTDEE(String userName) throws SQLException{
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
+        Statement stmt= (Statement) conn.createStatement();
+        sql = "SELECT * FROM user WHERE userName='"+userName+"'";
+        rs = stmt.executeQuery(sql);
+        while(rs.next()){
+        tdee=rs.getInt("tdee");
+        }
+        return tdee;
+    }
+    
+    public ResultSet getFoodInfo(String userName) throws SQLException{
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
+        Statement stmt= (Statement) conn.createStatement();
+        CurrentDate CDate = new CurrentDate();
+        String date = CDate.getDate();
+        sql = "SELECT * FROM foodlog WHERE userName='"+userName+"' AND log='"+date+"'";
+        rs = stmt.executeQuery(sql);
+        return rs;
     }
         
 }
+
