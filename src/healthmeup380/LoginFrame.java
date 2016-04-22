@@ -23,6 +23,10 @@ public class LoginFrame extends JFrame{
     JTextField  text1,text2;
    
   public LoginFrame() {  
+    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    setTitle("Login");
+    setSize(400, 150);
+    
     label1 = new JLabel();
     label1.setText("Username:");
     text1 = new JTextField(15);
@@ -47,7 +51,7 @@ public class LoginFrame extends JFrame{
     //login.addActionListener(this);
     //createUser.addActionListener(this);
    
-    setTitle("Login Menu");
+    //setTitle("Login Menu");
     
     ActionListener loginButtonListener = new ActionListener() {
     @Override

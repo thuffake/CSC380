@@ -9,76 +9,65 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 /**
  *
  * @author thomas
  */
-public class SubmitFoodFrame extends JFrame{
-    
+public class SearchFoodFrame extends JFrame{
     JButton submit, cancel;
-    JTextField food,calories;
-    JLabel foodLabel,caloriesLabel;
+    JTextField search;
+    JLabel searchLabel;
     JPanel panel;
     
-    public SubmitFoodFrame(String uName) {
-    
+    public SearchFoodFrame(String userName) {
+        
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-    setTitle("Submit Food");
+    setTitle("Search Food");
     setSize(400, 200);
     panel = new JPanel(new GridLayout(3,1));
     
-    foodLabel = new JLabel("Food Name:");
-    panel.add(foodLabel);
-    food = new JTextField(15);
-    panel.add(food);
+    searchLabel = new JLabel("Search Food:");
+    panel.add(searchLabel);
+    search = new JTextField(15);
+    panel.add(search);
     
-    caloriesLabel = new JLabel("Calories:");
-    panel.add(caloriesLabel);
-    calories = new JTextField(15);
-    panel.add(calories);
-    
-    submit = new JButton("Submit Food");
+    submit = new JButton("Search");
     panel.add(submit);
-    cancel = new JButton("Cancel");
+    cancel = new JButton("Done");
     panel.add(cancel);
     
     add(panel,BorderLayout.CENTER);
-        
+    
     ActionListener submitButtonListener = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-    SQLMethod sql = new SQLMethod();
-    int caloriesSQL = Integer.parseInt(calories.getText());
-    String foodSQL=food.getText();
+        SQLMethod sql = new SQLMethod();
+        String searchSQL=search.getText();
         try {
-            sql.submitFood(uName,foodSQL,caloriesSQL);
-            
-              } catch (SQLException ex) {
-            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+            ResultSet rs=sql.searchFood(searchSQL);
+            SelectFoodFrame page=new SelectFoodFrame(userName,rs);
+            page.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(SearchFoodFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        MenuFrame.updateText(uName);
-        dispose();
             }
         };
     submit.addActionListener(submitButtonListener);
     
-    
     ActionListener cancelButtonListener = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
+        MenuFrame.updateText(userName);
         dispose();
             }
         };
     cancel.addActionListener(cancelButtonListener);
-    }
+}
+   
 }

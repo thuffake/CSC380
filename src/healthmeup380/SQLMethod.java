@@ -89,6 +89,15 @@ public class SQLMethod {
         
     }
     
+    public ResultSet searchFood (String search)throws SQLException {
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
+        Statement stmt= (Statement) conn.createStatement();
+        sql = "Select * from nutrition where Food like "+"\"%"+search+"%\"";
+        rs = stmt.executeQuery(sql);
+      
+        return rs;
+    }
+    
     public Boolean auth (String AuthUserName, String AuthPassword)throws SQLException {
         //System.out.println("Logging in...");
         //System.out.println("Enter Username: ");
@@ -138,6 +147,29 @@ public class SQLMethod {
         while(rs.next()){
         tdee=rs.getInt("tdee");
         }
+        return tdee;
+    }
+    
+    public int getUserCaloriesLeft(String userName) throws SQLException{
+        int calories=0;
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
+        Statement stmt= (Statement) conn.createStatement();
+        sql = "SELECT * FROM user WHERE userName='"+userName+"'";
+        rs = stmt.executeQuery(sql);
+        while(rs.next()){
+        tdee=rs.getInt("tdee");
+        }
+        tdee=tdee-500;
+        CurrentDate CDate = new CurrentDate();
+        String date = CDate.getDate();
+        sql = "SELECT * FROM foodlog WHERE userName='"+userName+"' and log='"+date+"'";
+        //sql="select totalCalories from foodlog where userName='nik1' and log ='2016-04-21';";
+        rs = stmt.executeQuery(sql);
+        while(rs.next()){
+        int num=rs.getInt("totalCalories");
+        calories=calories+num;
+        }
+        tdee=tdee-calories;
         return tdee;
     }
     

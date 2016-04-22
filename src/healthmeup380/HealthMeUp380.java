@@ -37,9 +37,9 @@ public class HealthMeUp380 {
         
         try {
         LoginFrame frame=new LoginFrame();
-        frame.setSize(300,100);
+        //frame.setSize(300,100);
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         } catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage());

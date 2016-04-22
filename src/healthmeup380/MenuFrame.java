@@ -22,29 +22,39 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MenuFrame extends JFrame{
     
-    JButton submitFood, showFood, searchFood;
+    JButton submitFood, showFood, searchFood,logout;
     JLabel submitFoodLabel,welcome;
+    public static JLabel caloriesLeft;
     JPanel panel;
+    SQLMethod sql = new SQLMethod();
+    int calories;
+
     
     public MenuFrame(String name,String uName){
+        
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Menu");
         setSize(400, 200);
         panel = new JPanel(new GridLayout(3,1));
         
-        //submitFoodLabel = new JLabel();
-        //submitFoodLabel.setText("Username:");
-        //panel.add(submitFoodLabel);
-        //text1 = new JTextField(15);
+        try {
+           calories= sql.getUserCaloriesLeft(uName);
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         welcome = new JLabel("Welcome "+name);
         panel.add(welcome);
+        caloriesLeft = new JLabel("You have "+calories+" Calories left");
+        panel.add(caloriesLeft);
         showFood = new JButton("Show Food");
         panel.add(showFood);
         searchFood = new JButton("Search Food");
         panel.add(searchFood);
         submitFood = new JButton("Submit Food");
         panel.add(submitFood);
+        logout = new JButton("Log Out");
+        panel.add(logout);
         
         add(panel,BorderLayout.CENTER);
         
@@ -75,6 +85,25 @@ public class MenuFrame extends JFrame{
             }
         };
     showFood.addActionListener(showFoodButtonListener);
+    
+    ActionListener searchFoodButtonListener = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        SearchFoodFrame page=new SearchFoodFrame(uName);
+        page.setVisible(true);
+            }
+        };
+    searchFood.addActionListener(searchFoodButtonListener);
+    
+    ActionListener logoutButtonListener = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        dispose();
+        LoginFrame frame=new LoginFrame();
+        frame.setVisible(true);
+            }
+        };
+    logout.addActionListener(logoutButtonListener);
     }
   
     
@@ -105,6 +134,20 @@ public class MenuFrame extends JFrame{
     return new DefaultTableModel(data, columnNames);
 
     }
+    public static void updateText(String uName){
+        int calories=0;
+        SQLMethod sql1 = new SQLMethod();
+
+        try {
+           calories= sql1.getUserCaloriesLeft(uName);
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        caloriesLeft.setText("You have "+calories+" Calories left");
+    }
     
+    public void updateCaloriesLeft(int cal){
+        caloriesLeft.setText("You have "+cal+" Calories left");
+    }
  }
 
