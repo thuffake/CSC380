@@ -68,7 +68,9 @@ public class LoginFrame extends JFrame{
                 //String fName=sql.getUserFirstName(value1);
                 //JLabel label = new JLabel("Welcome "+fName);
                 //page.getContentPane().add(label);
-            }   } catch (SQLException ex) {
+            } else {
+                JOptionPane.showMessageDialog(null,"Username or Password is incorrect");
+            }} catch (SQLException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
             }

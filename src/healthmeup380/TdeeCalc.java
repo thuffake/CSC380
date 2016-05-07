@@ -12,7 +12,7 @@ import java.util.Scanner;
  * @author thomas
  */
 public class TdeeCalc {
-    Scanner sc = new Scanner(System.in);
+    //Scanner sc = new Scanner(System.in);
     
     public TdeeCalc(){
     

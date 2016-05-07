@@ -38,26 +38,51 @@ public class SQLMethod {
     }
     
     
-    public Boolean userNameExists ()throws SQLException {
+    public Boolean userNameExists (String check)throws SQLException {
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
         Statement stmt= (Statement) conn.createStatement();
-        sql = "SELECT * FROM user WHERE userName='"+uName+"'";
+        sql = "SELECT * FROM user WHERE userName='"+check+"'";
         rs = stmt.executeQuery(sql);
             
         while(rs.next()){
         uName=rs.getString("username");
-        }
-        
+        }  
         boolean exists=false;
-        if(uName==null){
-            System.out.println("Username does not exist!");
-            exists=false;
+        try {
+            
+            if(uName != null && !uName.isEmpty()){
+            exists=true;
             return exists;
         }
-        System.out.println("Username already exists!");
-        exists=true;
+        } catch (NullPointerException ex) {
+            
+        }
         return exists;
     }
+    
+    public Boolean resultNull (String food)throws SQLException {
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
+        Statement stmt= (Statement) conn.createStatement();
+        sql = "Select * from nutrition where Food like "+"\"%"+food+"%\"";
+        rs = stmt.executeQuery(sql);
+        String food1;
+        boolean exists=false;
+        int i = 0;
+        if(rs.next()){
+        food1=rs.getString("food");
+        try {
+            
+            if(food1 != null && !food1.isEmpty()){
+            exists=true;
+            return exists;
+        }
+        } catch (NullPointerException ex) {
+        }
+        }
+        
+        return exists;
+    }
+
     
     public void createUser(String uName,String password,String fName,
             String lName,int weight,int weightGoal, int fHeight,
@@ -99,16 +124,23 @@ public class SQLMethod {
     }
     
     public Boolean auth (String AuthUserName, String AuthPassword)throws SQLException {
-        //System.out.println("Logging in...");
-        //System.out.println("Enter Username: ");
-        //checkUserName = sc.next();
-        //System.out.println("Enter Password: ");
-        //checkPassword= sc.next();
+       
+        boolean auth = false;
+        if(AuthUserName.isEmpty()==true){
+            auth=false;
+            return auth;
+        }
+        
+        if(AuthPassword.isEmpty()==true){
+            auth=false;
+            return auth;
+        }
+        
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
         Statement stmt= (Statement) conn.createStatement();
         sql = "SELECT * FROM user WHERE userName='"+AuthUserName+"'";
         rs = stmt.executeQuery(sql);
-            
+                
         while(rs.next()){
         fName=rs.getString("fName");
         lName=rs.getString("lName");
@@ -122,10 +154,14 @@ public class SQLMethod {
         weight=rs.getInt("weight");
         weightgoal=rs.getInt("weightgoal");
         }
-                    
+        if(password.equalsIgnoreCase(AuthPassword)){
+            auth=true;
+        } else if(!password.equalsIgnoreCase(AuthPassword)){
+            auth=false;
+        }
         //System.out.println("Welcome, "+fName+"!");
         User u = new User(fName,lName,gender,fHeight,iHeight,age,weight,tdee,weightgoal,uName,password);
-        return true;
+        return auth;
     }
     
     public String getUserFirstName(String userName) throws SQLException{
@@ -181,6 +217,21 @@ public class SQLMethod {
         sql = "SELECT * FROM foodlog WHERE userName='"+userName+"' AND log='"+date+"'";
         rs = stmt.executeQuery(sql);
         return rs;
+    }
+    
+    public String getTimeFrame(String userName) throws SQLException{
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/users", "root", "tech");
+        Statement stmt= (Statement) conn.createStatement();
+        sql = "SELECT * FROM user WHERE userName='"+userName+"'";
+        rs = stmt.executeQuery(sql);
+        while(rs.next()){
+        weight=rs.getInt("weight");
+        weightgoal=rs.getInt("weightgoal");
+        }
+        int estimate=weight-weightgoal;
+        estimate=estimate * 7;
+        String days=Integer.toString(estimate);
+        return days;
     }
         
 }

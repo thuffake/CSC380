@@ -30,7 +30,7 @@ public class CreateFrame extends JFrame{
     public CreateFrame(){
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Create User");
-        setSize(500, 300);
+        setSize(500, 400);
         panel = new JPanel(new GridLayout(14,2));
         
         userNameLabel = new JLabel();
@@ -151,19 +151,37 @@ public class CreateFrame extends JFrame{
         
         //String value1=text1.getText();
         SQLMethod sql = new SQLMethod();
+       
         try {
-            sql.createUser(userNameSQL,passwordSQL,fNameSQL,lNameSQL,weightSQL,
+            if(sql.userNameExists(userNameSQL)==false){
+                sql.createUser(userNameSQL,passwordSQL,fNameSQL,lNameSQL,weightSQL,
                     weightGoalSQL,fHeightSQL,iHeightSQL,ageSQL,genderSQL,tdeeSQL);
+                dispose();
+                MenuFrame page=new MenuFrame(fNameSQL,userNameSQL);
+                page.setVisible(true);
+            } else{
+                JOptionPane.showMessageDialog(null,"Username already exists");
+            }
+//            sql.createUser(userNameSQL,passwordSQL,fNameSQL,lNameSQL,weightSQL,
+//                    weightGoalSQL,fHeightSQL,iHeightSQL,ageSQL,genderSQL,tdeeSQL);
               }catch (SQLException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        dispose();
-        MenuFrame page=new MenuFrame(fNameSQL,userNameSQL);
-        page.setVisible(true);
+  
             }
         };
     ok.addActionListener(okButtonListener);
+    
+    ActionListener cancelButtonListener = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        dispose();
+        LoginFrame frame=new LoginFrame();
+        frame.setVisible(true);
+            }
+        };
+    cancel.addActionListener(cancelButtonListener);
+
         
     }
   

@@ -50,9 +50,14 @@ public class SearchFoodFrame extends JFrame{
         SQLMethod sql = new SQLMethod();
         String searchSQL=search.getText();
         try {
-            ResultSet rs=sql.searchFood(searchSQL);
-            SelectFoodFrame page=new SelectFoodFrame(userName,rs);
-            page.setVisible(true);
+            if(sql.resultNull(searchSQL)==true){
+                ResultSet rs=sql.searchFood(searchSQL);
+                SelectFoodFrame page=new SelectFoodFrame(userName,rs);
+                page.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(null,"No results");
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(SearchFoodFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

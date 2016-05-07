@@ -23,22 +23,24 @@ import javax.swing.table.DefaultTableModel;
 public class MenuFrame extends JFrame{
     
     JButton submitFood, showFood, searchFood,logout;
-    JLabel submitFoodLabel,welcome;
+    JLabel submitFoodLabel,welcome,timeFrame,emptyBlock;
     public static JLabel caloriesLeft;
     JPanel panel;
     SQLMethod sql = new SQLMethod();
     int calories;
+    String days;
 
     
     public MenuFrame(String name,String uName){
         
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Menu");
-        setSize(400, 200);
-        panel = new JPanel(new GridLayout(3,1));
+        setSize(500, 300);
+        panel = new JPanel(new GridLayout(4,1));
         
         try {
            calories= sql.getUserCaloriesLeft(uName);
+           days=sql.getTimeFrame(uName);
         } catch (SQLException ex) {
             Logger.getLogger(MenuFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -47,6 +49,10 @@ public class MenuFrame extends JFrame{
         panel.add(welcome);
         caloriesLeft = new JLabel("You have "+calories+" Calories left");
         panel.add(caloriesLeft);
+        timeFrame = new JLabel(days+" days till goal is reached");
+        panel.add(timeFrame);
+        emptyBlock = new JLabel();
+        panel.add(emptyBlock);
         showFood = new JButton("Show Food");
         panel.add(showFood);
         searchFood = new JButton("Search Food");
